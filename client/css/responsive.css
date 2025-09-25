@@ -1,0 +1,265 @@
+/* Responsive Design */
+
+/* Tablet Styles */
+@media (max-width: 768px) {
+    .main {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    .header {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    .header__title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .header__subtitle {
+        font-size: var(--font-size-base);
+    }
+    
+    .task-list-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .task-stats {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+    
+    .task-item {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .task-actions {
+        opacity: 1; /* Always show on mobile for better UX */
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) {
+    .main {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+    
+    .header {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+    
+    .header__title {
+        font-size: var(--font-size-xl);
+    }
+    
+    .header__subtitle {
+        font-size: var(--font-size-sm);
+    }
+    
+    .task-input {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .task-input__field {
+        width: 100%;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .task-list-header {
+        padding: var(--spacing-md);
+    }
+    
+    .task-list-header__title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .task-stats {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        width: 100%;
+    }
+    
+    .task-stats__item {
+        font-size: var(--font-size-xs);
+    }
+    
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
+    
+    .task-content {
+        width: 100%;
+        order: 1;
+    }
+    
+    .task-actions {
+        width: 100%;
+        justify-content: flex-end;
+        order: 2;
+        opacity: 1;
+    }
+    
+    .task-meta {
+        order: 3;
+        width: 100%;
+        margin-left: 0;
+        margin-top: var(--spacing-xs);
+    }
+    
+    .empty-state {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+    
+    .empty-state__icon {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .empty-state__text {
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 320px) {
+    .main {
+        padding: var(--spacing-sm);
+    }
+    
+    .header {
+        padding: var(--spacing-sm);
+    }
+    
+    .header__title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .header__subtitle {
+        font-size: var(--font-size-xs);
+    }
+    
+    .task-list-header {
+        padding: var(--spacing-sm);
+    }
+    
+    .task-item {
+        padding: var(--spacing-sm);
+    }
+    
+    .btn {
+        padding: var(--spacing-sm);
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* Landscape Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .header__title {
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .header__subtitle {
+        font-size: var(--font-size-sm);
+    }
+    
+    .main {
+        padding: var(--spacing-md);
+    }
+    
+    .task-input-section {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .empty-state {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .spinner {
+        border-width: 1px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header {
+        background: none !important;
+        color: black !important;
+        box-shadow: none !important;
+    }
+    
+    .task-input-section,
+    .task-actions,
+    .btn {
+        display: none !important;
+    }
+    
+    .task-item {
+        border: 1px solid #ccc !important;
+        break-inside: avoid;
+    }
+    
+    .task-list-section {
+        box-shadow: none !important;
+        border: 1px solid #ccc;
+    }
+    
+    body {
+        background: white !important;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .spinner {
+        animation: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #1a1a1a;
+        --light-gray: #2d2d2d;
+        --gray: #8a8a8a;
+        --dark-gray: #b0b0b0;
+        --darker-gray: #e0e0e0;
+        --border-color: #404040;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+    
+    body {
+        background-color: #121212;
+        color: var(--darker-gray);
+    }
+    
+    .task-input__field {
+        background-color: var(--light-gray);
+        color: var(--darker-gray);
+        border-color: var(--border-color);
+    }
+    
+    .task-input__field::placeholder {
+        color: var(--gray);
+    }
+}

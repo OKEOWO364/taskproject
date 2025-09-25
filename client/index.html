@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - SIWES Project</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Authentication Section -->
+        <section id="auth-section" class="auth-section">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button id="login-tab" class="auth-tab active">Login</button>
+                    <button id="register-tab" class="auth-tab">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active">
+                    <h2>Login to Task Manager</h2>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full">Login</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form">
+                    <h2>Create Account</h2>
+                    <div class="form-group">
+                        <label for="register-username">Username</label>
+                        <input type="text" id="register-username" required minlength="3">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-firstname">First Name</label>
+                        <input type="text" id="register-firstname">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-lastname">Last Name</label>
+                        <input type="text" id="register-lastname">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full">Register</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Main App Section -->
+        <div id="main-app" class="main-app" style="display: none;">
+            <!-- Header -->
+            <header class="header">
+                <div class="header__content">
+                    <div>
+                        <h1 class="header__title">Task Manager</h1>
+                        <p class="header__subtitle">SIWES Project - Fullstack Task Management System</p>
+                    </div>
+                    <button id="logout-btn" class="btn btn--secondary">Logout</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main">
+                <!-- Add Task Button -->
+                <section class="add-task-section">
+                    <button id="add-task-btn" class="btn btn--primary btn--large">+ Add New Task</button>
+                </section>
+
+                <!-- Categories Section -->
+                <section class="categories-section">
+                    <div class="categories-header">
+                        <h2 class="categories-header__title">Categories</h2>
+                        <button id="add-category-btn" class="btn btn--primary btn--small">+ Add Category</button>
+                    </div>
+                    <div id="categories-list" class="categories-list">
+                        <!-- Categories will be rendered here -->
+                    </div>
+                </section>
+
+                <!-- Task List Section -->
+                <section class="task-list-section">
+                    <div class="task-list-header">
+                        <h2 class="task-list-header__title">Your Tasks</h2>
+                        <div class="task-list-controls">
+                            <div class="filter-controls">
+                                <div class="filter-group">
+                                    <label for="status-filter">Status:</label>
+                                    <select id="status-filter" class="filter-select">
+                                        <option value="all">All Tasks</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="priority-filter">Priority:</label>
+                                    <select id="priority-filter" class="filter-select">
+                                        <option value="all">All Priorities</option>
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="sort-order">Sort by:</label>
+                                    <select id="sort-order" class="filter-select">
+                                        <option value="default">Default</option>
+                                        <option value="priority">Priority</option>
+                                        <option value="date">Date Created</option>
+                                        <option value="alphabetical">Alphabetical</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="search-container">
+                                <input type="text" id="task-search" class="search-input" placeholder="Search tasks...">
+                                <button id="clear-search-btn" class="btn btn--small btn--secondary" style="display: none;">✕</button>
+                            </div>
+                            <div class="task-stats">
+                                <span id="total-tasks" class="task-stats__item">Total: 0</span>
+                                <span id="completed-tasks" class="task-stats__item">Completed: 0</span>
+                                <span id="pending-tasks" class="task-stats__item">Pending: 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                        <div class="spinner"></div>
+                        <span>Loading tasks...</span>
+                    </div>
+
+                    <ul id="task-list" class="task-list">
+                        <li class="empty-state">
+                            <div class="empty-state__icon">📝</div>
+                            <div class="empty-state__text">No tasks yet. Add one above!</div>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; 2024 SIWES Project - Task Management System</p>
+            </footer>
+        </div> <!-- End main-app -->
+    </div>
+
+    <!-- Task Edit Modal -->
+    <div id="task-edit-modal" class="modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Task</h2>
+                <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="task-edit-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-task-title">Task Title</label>
+                            <input type="text" id="edit-task-title" class="form-control" maxlength="200" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-group--half">
+                            <label for="edit-task-priority">Priority</label>
+                            <select id="edit-task-priority" class="form-control">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-group--half">
+                            <label for="edit-task-due-date">Due Date</label>
+                            <input type="date" id="edit-task-due-date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-group--half">
+                            <label for="edit-task-progress">Progress (%)</label>
+                            <input type="range" id="edit-task-progress" class="form-control" min="0" max="100" value="0">
+                            <span id="edit-progress-value" class="progress-value">0%</span>
+                        </div>
+                        <div class="form-group form-group--half">
+                            <label for="edit-task-category">Category</label>
+                            <select id="edit-task-category" class="form-control">
+                                <option value="">No Category</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-task-description">Description</label>
+                            <textarea id="edit-task-description" class="form-control" rows="3" placeholder="Add more details..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-task-assigned-to">Assign to Team Member</label>
+                            <select id="edit-task-assigned-to" class="form-control">
+                                <option value="">Not assigned</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="edit-task-completed">
+                                Mark as completed
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-cancel-btn" class="btn btn--secondary">Cancel</button>
+                <button id="modal-save-btn" type="submit" form="task-edit-form" class="btn btn--primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-category-modal" class="modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Category</h2>
+                <button id="category-modal-close-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-category-form">
+                    <div class="form-group">
+                        <label for="category-name">Name:</label>
+                        <input type="text" id="category-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">Description:</label>
+                        <textarea id="category-description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-color">Color:</label>
+                        <input type="color" id="category-color" class="form-control" value="#6366f1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="category-modal-cancel-btn" class="btn btn--secondary">Cancel</button>
+                <button id="category-modal-add-btn" class="btn btn--primary">Add Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div id="add-task-modal" class="modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Task</h2>
+                <button id="task-modal-close-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-task-form">
+                    <div class="form-group">
+                        <label for="task-title">Task Title:</label>
+                        <input type="text" id="task-title" class="form-control" required maxlength="200" placeholder="Enter task title...">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-description">Description (Optional):</label>
+                        <textarea id="task-description" class="form-control" rows="3" placeholder="Add more details..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-group--half">
+                            <label for="task-due-date">Due Date:</label>
+                            <input type="date" id="task-due-date" class="form-control" required>
+                        </div>
+                        <div class="form-group form-group--half">
+                            <label for="task-priority">Priority:</label>
+                            <select id="task-priority" class="form-control">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-group--half">
+                            <label for="task-progress">Progress (%):</label>
+                            <input type="range" id="task-progress" class="form-control" min="0" max="100" value="0">
+                            <span id="progress-value" class="progress-value">0%</span>
+                        </div>
+                        <div class="form-group form-group--half">
+                            <label for="task-category">Category:</label>
+                            <select id="task-category" class="form-control">
+                                <option value="">No Category</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-assigned-to">Assign to Team Member:</label>
+                        <select id="task-assigned-to" class="form-control">
+                            <option value="">Not assigned</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="task-modal-cancel-btn" class="btn btn--secondary">Cancel</button>
+                <button id="task-modal-add-btn" class="btn btn--primary">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
